@@ -1,5 +1,5 @@
 {% set version = "2.0.0" %}
-{%set sha256 = "89d9c015f9cb1ffe75aea66b56eab18f7750f3809e60baadff03eec7d0066665" %}
+{% set sha256 = "89d9c015f9cb1ffe75aea66b56eab18f7750f3809e60baadff03eec7d0066665" %}
 
 package:
   name: constructor
@@ -9,19 +9,6 @@ source:
   fn: constructor-{{ version }}.tar.gz
   url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    #################################################################
-    # Applying some patches to the tests pulled from upstream PRs.  #
-    #                                                               #
-    # xref: https://github.com/conda/constructor/pull/126           #
-    # xref: https://github.com/conda/constructor/pull/127           #
-    # xref: https://github.com/conda/constructor/pull/128           #
-    # xref: https://github.com/conda/constructor/pull/129           #
-    #################################################################
-    - PR_126.patch
-    - PR_127.patch
-    - PR_128.patch
-    - PR_129.patch
 
 build:
   number: 0
@@ -30,7 +17,7 @@ build:
     - constructor = constructor.main:main
 
 requirements:
-  build:
+  host:
     - python
     - setuptools
 
@@ -57,3 +44,7 @@ about:
 extra:
   recipe-maintainers:
     - jakirkham
+    - kalefranz
+    - msarahan
+    - mingwandroid
+    - nehaljwani
