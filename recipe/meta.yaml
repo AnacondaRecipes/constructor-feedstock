@@ -1,5 +1,4 @@
-{% set version = "1.7.0.dev2" %}
-{%set sha256 = "9a7564309b70ee62bd0762f728ca18c6c7e7504c5723669d85ee0bf97326aec4" %}
+{% set version = "1.7.0.dev7" %}
 
 package:
   name: constructor
@@ -7,7 +6,7 @@ package:
 
 source:
   git_url: https://github.com/conda/constructor.git
-  git_tag: cross_conda_interface_wip
+  git_tag: cross_conda_interface
 
 build:
   number: 0
