@@ -1,4 +1,4 @@
-{% set version = "1.3.4" %}
+{% set version = "1.7.0.dev2" %}
 {%set sha256 = "9a7564309b70ee62bd0762f728ca18c6c7e7504c5723669d85ee0bf97326aec4" %}
 
 package:
@@ -6,21 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  fn: constructor-{{ version }}.tar.gz
-  url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  git_url: https://github.com/conda/constructor.git
+  git_tag: cross_conda_interface_wip
 
 build:
   number: 0
   script: python setup.py install
 
 requirements:
-  build:
+  host:
     - python
 
   run:
     - python
-    - libconda
+    - conda
+    - ruamel_yaml
     - pillow >=3.1  # [win]
     - nsis          # [win]
 
@@ -41,3 +41,7 @@ about:
 extra:
   recipe-maintainers:
     - jakirkham
+    - kalefranz
+    - msarahan
+    - mingwandroid
+    - nehaljwani
