@@ -1,4 +1,4 @@
-{% set version = "1.7.0.dev7" %}
+{% set version = "1.7.0.dev9" %}
 
 package:
   name: constructor
@@ -15,6 +15,7 @@ build:
 requirements:
   host:
     - python
+    - setuptools
 
   run:
     - python
