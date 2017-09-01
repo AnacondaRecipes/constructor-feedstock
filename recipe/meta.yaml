@@ -40,6 +40,11 @@ about:
   license_family: BSD
   license_file: LICENSE.txt
   summary: create installer from conda packages
+  description: |
+    Constructor is a tool for constructing an installer for a collection of
+    conda packages. It creates an Anaconda-like installer consisting of
+    packages.
+  dev_url: https://github.com/conda/constructor
 
 extra:
   recipe-maintainers:
