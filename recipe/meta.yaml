@@ -19,6 +19,7 @@ requirements:
 
   run:
     - python
+    - setuptools
     - conda
     - ruamel_yaml
     - pillow >=3.1  # [win]
