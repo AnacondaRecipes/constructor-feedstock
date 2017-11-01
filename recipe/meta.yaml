@@ -1,4 +1,4 @@
-{% set version = "1.7.0.dev9" %}
+{% set version = "2.0.0" %}
 
 package:
   name: constructor
@@ -6,11 +6,11 @@ package:
 
 source:
   git_url: https://github.com/conda/constructor.git
-  git_tag: cross_conda_interface
+  git_tag: {{ version }}
 
 build:
   number: 0
-  script: python setup.py install
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   host:
