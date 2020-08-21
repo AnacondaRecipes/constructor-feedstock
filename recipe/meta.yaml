@@ -1,6 +1,5 @@
-{% set version = "3.0.1" %}
-{% set sha256 = "228ff80a3fdbc40ab3b45910e299c9f171248d4291e76df15567add29a74dadd" %}
-{% set standalone_ver = "4.7.5" %}
+{% set version = "3.0.2" %}
+{% set sha256 = "b46dc3ffb6a7547f84834cc888570446d94ddfd7be832f08a798f55518a30545" %}
 
 package:
   name: constructor
@@ -32,6 +31,7 @@ test:
   imports:
     - constructor
   commands:
+    - constructor -V
     - constructor --test .
 
 about:
@@ -44,6 +44,7 @@ about:
     Constructor is a tool for constructing an installer for a collection of
     conda packages. It creates an Anaconda-like installer consisting of
     packages.
+  doc_url: https://conda.io/projects/conda/en/latest/
   dev_url: https://github.com/conda/constructor
 
 extra:
@@ -51,4 +52,3 @@ extra:
     - jakirkham
     - mbargull
     - msarahan
-    - hadim
