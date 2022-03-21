@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: 71d00bf9d6e69b868222c7821a70e91baef2fc02efdab8fcf05e51072eea5c46
+    sha256: b9fe6afb60b90f99708e46c871db33c236eb0a1d42652006e8801654820fea3c
 
 build:
   number: 0
