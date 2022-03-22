@@ -46,14 +46,14 @@ test:
     - pytest
   commands:
     - pytest -v tests
-    # Skip dfor windows (just needed for 64-bit) as there are some .pyc duplicates causing test failure.
+    # Skip for windows (just needed for 64-bit) as there are some .pyc duplicates causing test failure.
     - python scripts/run_examples.py  # [not win]
     - constructor -V
   imports:
     - constructor
 
 about:
-  home: http://github.com/conda/constructor
+  home: https://github.com/conda/constructor
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
