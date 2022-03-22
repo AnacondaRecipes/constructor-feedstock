@@ -15,6 +15,7 @@ build:
     - constructor = constructor.main:main
   patches:
     - 0001-make-directory-arg-optional.patch
+  skip: true  # [py<37]
 
 requirements:
   build:
