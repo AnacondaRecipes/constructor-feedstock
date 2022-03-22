@@ -35,7 +35,6 @@ requirements:
     - conda-standalone
     - chardet
     - pillow >=3.1  # [win]
-    - nsis >=3.01  # [win]
 test:
   source_files:
     - tests
