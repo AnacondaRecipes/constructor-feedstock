@@ -1,4 +1,4 @@
-{% set version = "3.2.1" %}
+{% set version = "3.3.1" %}
 
 package:
   name: constructor
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: 71d00bf9d6e69b868222c7821a70e91baef2fc02efdab8fcf05e51072eea5c46
+    sha256: b9fe6afb60b90f99708e46c871db33c236eb0a1d42652006e8801654820fea3c
 
 build:
   number: 0
@@ -15,6 +15,7 @@ build:
     - constructor = constructor.main:main
   patches:
     - 0001-make-directory-arg-optional.patch
+  skip: true  # [py<37]
 
 requirements:
   build:
@@ -23,17 +24,18 @@ requirements:
   host:
     - python
     - pip
+    - setuptools
+    - wheel
   run:
     - conda >=4.6
     - python
+    - pip
+    - setuptools
+    - wheel
     - ruamel_yaml >=0.11.14,<0.16
     - conda-standalone
-    - pip
-    - wheel
-    - setuptools
     - chardet
     - pillow >=3.1  # [win]
-    - nsis >=3.01  # [win]
 test:
   source_files:
     - tests
@@ -44,15 +46,14 @@ test:
     - pytest
   commands:
     - pytest -v tests
-    # Skip for linux-aarch64 because examples use "main" channel which has no builds for that platform.
-    # Skip dfor windows (just needed for 64-bit) as there are some .pyc duplicates causing test failure.
-    - python scripts/run_examples.py  # [not aarch64 and not win]
+    # Skip for windows (just needed for 64-bit) as there are some .pyc duplicates causing test failure.
+    - python scripts/run_examples.py  # [not win]
     - constructor -V
   imports:
     - constructor
 
 about:
-  home: http://github.com/conda/constructor
+  home: https://github.com/conda/constructor
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
