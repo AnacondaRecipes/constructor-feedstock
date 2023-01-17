@@ -1,4 +1,4 @@
-{% set version = "3.3.1" %}
+{% set version = "3.4.0" %}
 
 package:
   name: constructor
@@ -6,15 +6,13 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: b9fe6afb60b90f99708e46c871db33c236eb0a1d42652006e8801654820fea3c
+    sha256: 698edd02dd97e8687d38d6e92368969371b02421e5542fca507f5406c5005f71
 
 build:
   number: 0
   script: "{{ PYTHON }} -m pip install . -vv"
   entry_points:
     - constructor = constructor.main:main
-  patches:
-    - 0001-make-directory-arg-optional.patch
   skip: true  # [py<37]
 
 requirements:
@@ -29,13 +27,12 @@ requirements:
   run:
     - conda >=4.6
     - python
-    - pip
-    - setuptools
-    - wheel
     - ruamel_yaml >=0.11.14,<0.16
     - conda-standalone
-    - chardet
-    - pillow >=3.1  # [win]
+    - pillow >=3.1     # [win or osx]
+    - nsis >=3.08      # [win]
+  run_constrained:     # [unix]
+    - nsis >=3.08      # [unix]
 test:
   source_files:
     - tests
@@ -43,11 +40,13 @@ test:
     - examples
   requires:
     - pillow >=3.1
+    - pip
     - pytest
   commands:
+    - pip check
     - pytest -v tests
-    # Skip for windows (just needed for 64-bit) as there are some .pyc duplicates causing test failure.
-    - python scripts/run_examples.py  # [not win]
+    # Long running integration tests
+    # - python scripts/run_examples.py  # [not win]
     - constructor -V
   imports:
     - constructor
