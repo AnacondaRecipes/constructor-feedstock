@@ -10,15 +10,12 @@ source:
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: {{ PYTHON }} -m pip install . -vv --no-deps
   entry_points:
     - constructor = constructor.main:main
   skip: true  # [py<37]
 
 requirements:
-  build:
-    - patch     # [not win]
-    - m2-patch  # [win]
   host:
     - python
     - pip
@@ -56,7 +53,6 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  license_url: https://github.com/conda/constructor/blob/{{ version }}/LICENSE.txt
   summary: create installer from conda packages
   description: |
     Constructor is a tool for constructing an installer for a collection of
@@ -64,7 +60,6 @@ about:
     packages.
   doc_url: https://conda.github.io/constructor
   dev_url: https://github.com/conda/constructor
-  doc_source_url: https://github.com/conda/constructor/tree/{{ version }}/docs
 
 extra:
   recipe-maintainers:
