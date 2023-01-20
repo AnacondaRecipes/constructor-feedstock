@@ -1,4 +1,4 @@
-{% set version = "3.3.1" %}
+{% set version = "3.4.1" %}
 
 package:
   name: constructor
@@ -6,21 +6,16 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: b9fe6afb60b90f99708e46c871db33c236eb0a1d42652006e8801654820fea3c
+    sha256: a6eb77101e32e7764680a7f1b848894b76b9d8ebd9e5c4a7196ac398430d839c
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: {{ PYTHON }} -m pip install . -vv --no-deps
   entry_points:
     - constructor = constructor.main:main
-  patches:
-    - 0001-make-directory-arg-optional.patch
   skip: true  # [py<37]
 
 requirements:
-  build:
-    - patch     # [not win]
-    - m2-patch  # [win]
   host:
     - python
     - pip
@@ -29,13 +24,12 @@ requirements:
   run:
     - conda >=4.6
     - python
-    - pip
-    - setuptools
-    - wheel
     - ruamel_yaml >=0.11.14,<0.16
     - conda-standalone
-    - chardet
-    - pillow >=3.1  # [win]
+    - pillow >=3.1     # [win or osx]
+    - nsis >=3.08      # [win]
+  run_constrained:     # [unix]
+    - nsis >=3.08      # [unix]
 test:
   source_files:
     - tests
@@ -43,11 +37,13 @@ test:
     - examples
   requires:
     - pillow >=3.1
+    - pip
     - pytest
   commands:
+    - pip check
     - pytest -v tests
-    # Skip for windows (just needed for 64-bit) as there are some .pyc duplicates causing test failure.
-    - python scripts/run_examples.py  # [not win]
+    # Long running integration tests
+    # - python scripts/run_examples.py  # [not win]
     - constructor -V
   imports:
     - constructor
@@ -62,7 +58,7 @@ about:
     Constructor is a tool for constructing an installer for a collection of
     conda packages. It creates an Anaconda-like installer consisting of
     packages.
-  doc_url: https://conda.io/projects/conda/en/latest/
+  doc_url: https://conda.github.io/constructor
   dev_url: https://github.com/conda/constructor
 
 extra:
