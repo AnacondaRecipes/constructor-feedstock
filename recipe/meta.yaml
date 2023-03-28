@@ -1,4 +1,4 @@
-{% set version = "3.4.2" %}
+{% set version = "3.4.3" %}
 
 package:
   name: constructor
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: d10f65ad334e458a6f2ad3fe3a300c0ca9894a04ce1c5d6383155c0e9405839d
+    sha256: 4a1f5ae2ba74175cc5d0770d6d43147253091f8869fa20568a02d5ddb7963dee
 
 build:
   number: 0
@@ -43,7 +43,8 @@ test:
     - pip check
     - pytest -v tests
     # Long running integration tests
-    # - python scripts/run_examples.py  # [not win]
+    - python scripts/run_examples.py  # [not win]
+    - test_win.bat  # [win]
     - constructor -V
   imports:
     - constructor
