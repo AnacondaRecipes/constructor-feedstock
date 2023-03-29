@@ -1,0 +1,15 @@
+diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
+index 6f5c8ae..488e675 100644
+--- a/constructor/nsis/main.nsi.tmpl
++++ b/constructor/nsis/main.nsi.tmpl
+@@ -843,10 +843,6 @@ Function OnDirectoryLeave
+              This can cause problems with several Conda packages.$\n \
+              Please consider removing the space$R1." \
+             /SD IDOK
+-        ${If} ${Silent}
+-            DetailPrint "::error:: 'Destination folder' contains $R0 space$R1."
+-            abort
+-        ${EndIf}
+     NoSpaces:
+ #endif
+ 

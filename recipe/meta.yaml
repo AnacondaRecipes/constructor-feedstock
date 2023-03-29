@@ -7,6 +7,8 @@ package:
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
     sha256: 4a1f5ae2ba74175cc5d0770d6d43147253091f8869fa20568a02d5ddb7963dee
+    patches:
+      - 0001-do-not-abort-with-spaces.patch
 
 build:
   number: 0
@@ -16,6 +18,9 @@ build:
   skip: true  # [py<37]
 
 requirements:
+  build:
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
     - python
     - pip
