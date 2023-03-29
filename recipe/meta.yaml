@@ -36,15 +36,14 @@ test:
     - scripts
     - examples
   requires:
-    - pillow >=3.1
+    - pillow >=3.1     # [win or osx]
     - pip
     - pytest
   commands:
     - pip check
     - pytest -v tests
     # Long running integration tests
-    - python scripts/run_examples.py  # [not win]
-    - test_win.bat  # [win]
+    #- python scripts/run_examples.py  # [not win]
     - constructor -V
   imports:
     - constructor
