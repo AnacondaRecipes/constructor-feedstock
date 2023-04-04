@@ -10,7 +10,7 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
   skip: true  # [py<37]
@@ -43,7 +43,7 @@ test:
     - pip check
     - pytest -v tests
     # Long running integration tests
-    #- python scripts/run_examples.py  # [not win]
+    # - python scripts/run_examples.py  # [not win]
     - constructor -V
   imports:
     - constructor
