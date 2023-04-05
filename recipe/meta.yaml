@@ -36,7 +36,6 @@ test:
     - scripts
     - examples
   requires:
-    - pillow >=3.1
     - pip
     - pytest
   commands:
