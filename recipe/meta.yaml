@@ -1,4 +1,4 @@
-{% set version = "3.4.2" %}
+{% set version = "3.4.3" %}
 
 package:
   name: constructor
@@ -6,11 +6,11 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: d10f65ad334e458a6f2ad3fe3a300c0ca9894a04ce1c5d6383155c0e9405839d
+    sha256: 4a1f5ae2ba74175cc5d0770d6d43147253091f8869fa20568a02d5ddb7963dee
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
   skip: true  # [py<37]
@@ -24,9 +24,9 @@ requirements:
   run:
     - conda >=4.6,<23.1.0
     - python
-    - ruamel_yaml >=0.11.14,<0.16
+    - ruamel_yaml
     - conda-standalone
-    - pillow >=3.1     # [win or osx]
+    - pillow >=3.1
     - nsis >=3.08      # [win]
   run_constrained:     # [unix]
     - nsis >=3.08      # [unix]
@@ -36,7 +36,6 @@ test:
     - scripts
     - examples
   requires:
-    - pillow >=3.1
     - pip
     - pytest
   commands:
