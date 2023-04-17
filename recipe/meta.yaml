@@ -7,15 +7,20 @@ package:
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
     sha256: 4a1f5ae2ba74175cc5d0770d6d43147253091f8869fa20568a02d5ddb7963dee
+    patches:
+      - 0001-only-warn-on-spaces.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
   skip: true  # [py<37]
 
 requirements:
+  build:
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
     - python
     - pip
