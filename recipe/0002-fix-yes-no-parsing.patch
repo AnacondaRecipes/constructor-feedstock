@@ -1,5 +1,5 @@
 diff --git a/constructor/header.sh b/constructor/header.sh
-index 2108fd2..2f9eae8 100644
+index 2108fd2..41e3d24 100644
 --- a/constructor/header.sh
 +++ b/constructor/header.sh
 @@ -137,8 +137,8 @@ then
@@ -86,7 +86,7 @@ index 2108fd2..2f9eae8 100644
 -    while [ "$ans" != "yes" ] && [ "$ans" != "Yes" ] && [ "$ans" != "YES" ] && \
 -          [ "$ans" != "no" ]  && [ "$ans" != "No" ]  && [ "$ans" != "NO" ]
 +    ans=$(echo ${ans} | tr '[a-z]' '[A-Z]')
-+    while [ "$ans" != "YES" ] && [ "$ans" != "NO" ] && [ "$ans" != ""]
++    while [ "$ans" != "YES" ] && [ "$ans" != "NO" ] && [ "$ans" != "" ]
      do
          printf "Please answer 'yes' or 'no':'\\n"
          printf ">>> "
