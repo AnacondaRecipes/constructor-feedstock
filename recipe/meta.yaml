@@ -9,6 +9,7 @@ source:
     sha256: 4a1f5ae2ba74175cc5d0770d6d43147253091f8869fa20568a02d5ddb7963dee
     patches:
       - 0001-only-warn-on-spaces.patch
+      - 0002-fix-yes-no-parsing.patch
 
 build:
   number: 1
