@@ -1,0 +1,13 @@
+diff --git a/constructor/osxpkg.py b/constructor/osxpkg.py
+index 2f696f6..8b1ad02 100644
+--- a/constructor/osxpkg.py
++++ b/constructor/osxpkg.py
+@@ -316,7 +316,7 @@ def pkgbuild(name, identifier=None, version=None, install_location=None):
+         "pkgbuild",
+         "--root", PACKAGE_ROOT,
+         "--identifier", "%s.pkg.%s" % (identifier, name),
+-        "--ownership", "preserve",
++        "--ownership", "recommended",
+     ]
+ 
+     if isdir(SCRIPTS_DIR) and os.listdir(SCRIPTS_DIR):

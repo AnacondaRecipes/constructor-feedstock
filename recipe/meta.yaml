@@ -10,6 +10,7 @@ source:
     patches:
       - 0001-only-warn-on-spaces.patch
       - 0002-fix-yes-no-parsing.patch
+      - 0003-set-ownership-to-recommended.patch
 
 build:
   number: 1
