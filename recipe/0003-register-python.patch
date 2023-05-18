@@ -1,16 +1,16 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..f2b21c7 100644
+index 6f5c8ae..dbe5c25 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -1114,6 +1114,11 @@ Section "Install"
-         WriteRegStr SHCTX "${PYREG}\InstallPath\InstallGroup" \
-             "" "Python ${PY_VER}"
+@@ -1111,6 +1111,11 @@ Section "Install"
+ 
+         WriteRegStr SHCTX "${PYREG}\InstallPath" "" "$INSTDIR"
  
 +        WriteRegStr $HCTX "${PYREG}\InstallPath" \
 +            "ExecutablePath" "$INSTDIR\python.exe"
 +        WriteRegStr $HCTX "${PYREG}\InstallPath" \
 +            "WindowedExecutablePath" "$INSTDIR\pythonw.exe"
 +
-         WriteRegStr SHCTX "${PYREG}\Modules" "" ""
-         WriteRegStr SHCTX "${PYREG}\PythonPath" \
-             "" "$INSTDIR\Lib;$INSTDIR\DLLs"
+         WriteRegStr SHCTX "${PYREG}\InstallPath\InstallGroup" \
+             "" "Python ${PY_VER}"
+ 
