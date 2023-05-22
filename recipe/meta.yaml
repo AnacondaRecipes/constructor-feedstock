@@ -10,7 +10,7 @@ source:
     patches:
       - 0001-only-warn-on-spaces.patch
       - 0002-fix-yes-no-parsing.patch
-      - 0003-prohibit-spaces.patch
+      - 0003-prohibit-parentheses.patch
 
 build:
   number: 2
