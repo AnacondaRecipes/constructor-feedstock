@@ -1,16 +1,55 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..6db8f78 100644
+index 6f5c8ae..c71e4e3 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -844,8 +844,9 @@ Function OnDirectoryLeave
-              Please consider removing the space$R1." \
-             /SD IDOK
+@@ -827,7 +827,6 @@ Function OnDirectoryLeave
+     Call CheckForSpaces
+     Pop $R0 # The function returns the number of spaces found in the input string.
+ 
+-#if check_path_spaces is True
+     # Check if any spaces exist in $INSTDIR.
+     StrCmp $R0 0 NoSpaces
+ 
+@@ -837,18 +836,35 @@ Function OnDirectoryLeave
+         Goto +2
+           StrCpy $R1 "s"
+ 
++        var msg
++        var separator
++        var errlvl
++        ${If} ${Silent}
++          StrCpy $separator ""
++        ${Else}
++          StrCpy $separator "$\n"
++        ${EndIf}
++        StrCpy $var "'Destination Folder' contains $R0 space$R1.$separator \
++         This can cause problems with several conda packages.$separator"
++        ${If} ${check_path_spaces}
++            StrCpy $var "$var Please consider removing the space$R1."
++            StrCpy $errlvl "warning"
++        ${Else}
++            StrCpy $var "$var Please remove the space$R1 from the destination folder."
++            StrCpy $errlvl "error"
++        ${EndIf}
+         # Show message box then take the user back to the Directory page.
+-        MessageBox MB_OK|MB_ICONINFORMATION \
+-            "Warning: 'Destination Folder' contains $R0 space$R1.$\n \
+-             This can cause problems with several Conda packages.$\n \
+-             Please consider removing the space$R1." \
+-            /SD IDOK
          ${If} ${Silent}
 -            DetailPrint "::error:: 'Destination folder' contains $R0 space$R1."
--            abort
-+            DetailPrint "::warning:: 'Destination Folder' contains $R0 space$R1. \
-+             This can cause problems with several Conda packages. \
-+             Please consider removing the space$R1."
++            ${StrCase} $errlvl $errlvl "L"
++            DetailPrint "::$errlvl:: $msg"
++        ${Else}
++            ${StrCase} $errlvl $errlvl "S"
++            MessageBox MB_OK|MB_ICONINFORMATION "$errlvl: $msg" /SD IDOK
++        ${EndIf}
++        ${If} ${check_path_spaces}
+             abort
          ${EndIf}
      NoSpaces:
- #endif
+-#endif
+ 
+     # List of characters not allowed anywhere in $INSTDIR
+     Push "^%!=,"
