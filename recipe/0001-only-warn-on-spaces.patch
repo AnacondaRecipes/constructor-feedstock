@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..c71e4e3 100644
+index 6f5c8ae..8e84134 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -827,7 +827,6 @@ Function OnDirectoryLeave
@@ -24,13 +24,13 @@ index 6f5c8ae..c71e4e3 100644
 +        ${EndIf}
 +        StrCpy $var "'Destination Folder' contains $R0 space$R1.$separator \
 +         This can cause problems with several conda packages.$separator"
-+        ${If} ${check_path_spaces}
++#if check_path_spaces is True
 +            StrCpy $var "$var Please consider removing the space$R1."
 +            StrCpy $errlvl "warning"
-+        ${Else}
++#else
 +            StrCpy $var "$var Please remove the space$R1 from the destination folder."
 +            StrCpy $errlvl "error"
-+        ${EndIf}
++#endif
          # Show message box then take the user back to the Directory page.
 -        MessageBox MB_OK|MB_ICONINFORMATION \
 -            "Warning: 'Destination Folder' contains $R0 space$R1.$\n \
@@ -39,17 +39,18 @@ index 6f5c8ae..c71e4e3 100644
 -            /SD IDOK
          ${If} ${Silent}
 -            DetailPrint "::error:: 'Destination folder' contains $R0 space$R1."
+-            abort
 +            ${StrCase} $errlvl $errlvl "L"
 +            DetailPrint "::$errlvl:: $msg"
 +        ${Else}
 +            ${StrCase} $errlvl $errlvl "S"
 +            MessageBox MB_OK|MB_ICONINFORMATION "$errlvl: $msg" /SD IDOK
-+        ${EndIf}
-+        ${If} ${check_path_spaces}
-             abort
          ${EndIf}
-     NoSpaces:
--#endif
+-    NoSpaces:
++#if check_path_spaces is True
++            abort
+ #endif
++    NoSpaces:
  
      # List of characters not allowed anywhere in $INSTDIR
      Push "^%!=,"
