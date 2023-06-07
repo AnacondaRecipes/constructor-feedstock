@@ -11,6 +11,7 @@ source:
       - 0001-only-warn-on-spaces.patch
       - 0002-fix-yes-no-parsing.patch
       - 0003-prohibit-parentheses.patch
+      - 0004-check-conda-path-uninstaller.patch
 
 build:
   number: 3

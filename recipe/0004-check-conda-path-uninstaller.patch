@@ -1,0 +1,20 @@
+diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
+index 6f5c8ae..6d939da 100644
+--- a/constructor/nsis/main.nsi.tmpl
++++ b/constructor/nsis/main.nsi.tmpl
+@@ -1170,8 +1170,14 @@ SectionEnd
+ !macroend
+ 
+ Section "Uninstall"
+-    # Remove menu items, path entries
++    IfFileExists $INSTDIR\_conda.exe valid_conda_dir
++        StrCpy $R0 "Not a valid conda directory. Please run the uninstaller from a conda directory."
++        DetailPrint "::error:: $R0"
++        MessageBox MB_OK|MB_ICONEXCLAMATION "Error: $R0" /SD IDABORT
++        abort
++    valid_conda_dir:
+ 
++    # Remove menu items, path entries
+     DetailPrint "Deleting @NAME@ menus..."
+     nsExec::ExecToLog '"$INSTDIR\_conda.exe" constructor --prefix "$INSTDIR" --rm-menus'
+ 
