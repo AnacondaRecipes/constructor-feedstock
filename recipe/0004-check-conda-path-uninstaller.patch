@@ -1,20 +1,36 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..6d939da 100644
+index 6f5c8ae..0ac76af 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -1170,8 +1170,14 @@ SectionEnd
- !macroend
+@@ -679,15 +679,15 @@ Function un.onInit
+     # not automatically elevate the uninstaller for us -- we need to do it
+     # ourselves if we're not a 'Just Me' installation.
+     !insertmacro UAC_PageElevation_OnInit
+-    ${IfNot} ${FileExists} "$INSTDIR\.nonadmin"
++    ${IfNot} ${FileExists} "$INSTDIR\.admin"
+     ${AndIfNot} ${UAC_IsAdmin}
+         !insertmacro DoElevation
+     ${EndIf}
  
- Section "Uninstall"
--    # Remove menu items, path entries
-+    IfFileExists $INSTDIR\_conda.exe valid_conda_dir
-+        StrCpy $R0 "Not a valid conda directory. Please run the uninstaller from a conda directory."
-+        DetailPrint "::error:: $R0"
-+        MessageBox MB_OK|MB_ICONEXCLAMATION "Error: $R0" /SD IDABORT
-+        abort
-+    valid_conda_dir:
+-    ${If} ${FileExists} "$INSTDIR\.nonadmin"
+-        SetShellVarContext Current
+-    ${Else}
++    ${If} ${FileExists} "$INSTDIR\.admin"
+         SetShellVarContext All
++    ${Else}
++        SetShellVarContext Current
+     ${EndIf}
+ FunctionEnd
  
-+    # Remove menu items, path entries
-     DetailPrint "Deleting @NAME@ menus..."
-     nsExec::ExecToLog '"$INSTDIR\_conda.exe" constructor --prefix "$INSTDIR" --rm-menus'
+@@ -996,9 +996,9 @@ Section "Install"
+     # Copy extra files (code generated on winexe.py)
+     @EXTRA_FILES@
+ 
+-    ${If} $InstMode = ${JUST_ME}
++    ${If} $InstMode = ${ALL_USERS}
+         SetOutPath "$INSTDIR"
+-        FileOpen $0 ".nonadmin" w
++        FileOpen $0 ".admin" w
+         FileClose $0
+     ${EndIf}
  
