@@ -1,28 +1,29 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..d6524a7 100644
+index 6f5c8ae..eb9e199 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -36,6 +36,7 @@ Unicode "true"
- !include "FileFunc.nsh"
+@@ -37,6 +37,8 @@ Unicode "true"
  !insertmacro GetParameters
  !insertmacro GetOptions
-+${StrTok}
  
++${StrTok}
++
  !include "UAC.nsh"
  !include "nsDialogs.nsh"
-@@ -669,6 +670,27 @@ Function .onInit
+ 
+@@ -669,6 +671,27 @@ Function .onInit
  FunctionEnd
  
  Function un.onInit
 +    # Never run the uninstaller when $INSTDIR points at system-critical directories
 +    StrCpy $R0 "ALLUSERSPROFILE APPDATA LOCALAPPDATA PROGRAMDATA PROGRAMFILES PROGRAMFILES(x86) PUBLIC SYSTEMDRIVE SYSTEMROOT USERPROFILE"
 +    Push $R0
-+    Call CheckForSpaces
++    Call un.CheckForSpaces
 +    Pop $R1
-+    ${ForEach} $i 0 $R1 + 1
-+        ${StrTok} $R2 $R0 " " $i "1"
-+        ReadEnvStr $R2
-+        StrCmp $R1 $INSTDIR invalid_dir
++    ${ForEach} $R9 0 $R1 + 1
++        ${StrTok} $R2 $R0 " " $R9 "1"
++        ReadEnvStr $R3 $R2
++        StrCmp $R3 $INSTDIR invalid_dir
 +    ${Next}
 +
 +    # Primitive check to see that $INSTDIR points to a conda directory
@@ -38,7 +39,7 @@ index 6f5c8ae..d6524a7 100644
      # Select the correct registry to look at, depending
      # on whether it's a 32-bit or 64-bit installer
      SetRegView @BITS@
-@@ -679,15 +701,15 @@ Function un.onInit
+@@ -679,41 +702,47 @@ Function un.onInit
      # not automatically elevate the uninstaller for us -- we need to do it
      # ourselves if we're not a 'Just Me' installation.
      !insertmacro UAC_PageElevation_OnInit
@@ -58,7 +59,61 @@ index 6f5c8ae..d6524a7 100644
      ${EndIf}
  FunctionEnd
  
-@@ -996,9 +1018,9 @@ Section "Install"
+ # http://nsis.sourceforge.net/Check_for_spaces_in_a_directory_path
+-Function CheckForSpaces
+-    ${LogSet} on
+-    Exch $R0
+-    Push $R1
+-    Push $R2
+-    Push $R3
+-    StrCpy $R1 -1
+-    StrCpy $R3 $R0
+-    StrCpy $R0 0
+-    loop:
+-        StrCpy $R2 $R3 1 $R1
+-        IntOp $R1 $R1 - 1
+-        StrCmp $R2 "" done
+-        StrCmp $R2 " " 0 loop
+-        IntOp $R0 $R0 + 1
+-    Goto loop
+-    done:
+-    Pop $R3
+-    Pop $R2
+-    Pop $R1
+-    Exch $R0
+-FunctionEnd
++# Make function available for both installer and uninstaller
++# Uninstaller functions need an `un.` prefix, so we use a macro to do both
++!macro CheckForSpacesMacro un
++    Function ${un}CheckForSpaces
++        ${LogSet} on
++        Exch $R0
++        Push $R1
++        Push $R2
++        Push $R3
++        StrCpy $R1 -1
++        StrCpy $R3 $R0
++        StrCpy $R0 0
++        loop:
++            StrCpy $R2 $R3 1 $R1
++            IntOp $R1 $R1 - 1
++            StrCmp $R2 "" done
++            StrCmp $R2 " " 0 loop
++            IntOp $R0 $R0 + 1
++        Goto loop
++        done:
++        Pop $R3
++        Pop $R2
++        Pop $R1
++        Exch $R0
++    FunctionEnd
++!macroend
++!insertmacro CheckForSpacesMacro ""
++!insertmacro CheckForSpacesMacro "un."
+ 
+ # http://nsis.sourceforge.net/StrCSpn,_StrCSpnReverse:_Scan_strings_for_characters
+ Function StrCSpn
+@@ -996,9 +1025,9 @@ Section "Install"
      # Copy extra files (code generated on winexe.py)
      @EXTRA_FILES@
  
