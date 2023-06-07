@@ -1,36 +1,29 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..4f933fd 100644
+index 6f5c8ae..d6524a7 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -669,6 +669,42 @@ Function .onInit
+@@ -36,6 +36,7 @@ Unicode "true"
+ !include "FileFunc.nsh"
+ !insertmacro GetParameters
+ !insertmacro GetOptions
++${StrTok}
+ 
+ !include "UAC.nsh"
+ !include "nsDialogs.nsh"
+@@ -669,6 +670,27 @@ Function .onInit
  FunctionEnd
  
  Function un.onInit
 +    # Never run the uninstaller when $INSTDIR points at system-critical directories
-+    ReadEnvStr $R0 ALLUSERSPROFILE
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 APPDATA
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 LOCALAPPDATA
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 PROGRAMDATA
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 PROGRAMFILES
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 PROGRAMFILES(x86)
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 PUBLIC
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 SYSTEMDRIVE
-+    # SYSTEMDRIVE does not contain backslash
-+    StrCpy $R0 "$R0\"
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 SYSTEMROOT
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 USERPROFILE
-+    StrCmp $R0 $INSTDIR invalid_dir
-+    ReadEnvStr $R0 WINDIR
-+    StrCmp $R0 $INSTDIR invalid_dir
++    StrCpy $R0 "ALLUSERSPROFILE APPDATA LOCALAPPDATA PROGRAMDATA PROGRAMFILES PROGRAMFILES(x86) PUBLIC SYSTEMDRIVE SYSTEMROOT USERPROFILE"
++    Push $R0
++    Call CheckForSpaces
++    Pop $R1
++    ${ForEach} $i 0 $R1 + 1
++        ${StrTok} $R2 $R0 " " $i "1"
++        ReadEnvStr $R2
++        StrCmp $R1 $INSTDIR invalid_dir
++    ${Next}
 +
 +    # Primitive check to see that $INSTDIR points to a conda directory
 +    IfFileExists $INSTDIR\_conda.exe valid_conda_dir invalid_dir
@@ -45,7 +38,7 @@ index 6f5c8ae..4f933fd 100644
      # Select the correct registry to look at, depending
      # on whether it's a 32-bit or 64-bit installer
      SetRegView @BITS@
-@@ -679,15 +715,15 @@ Function un.onInit
+@@ -679,15 +701,15 @@ Function un.onInit
      # not automatically elevate the uninstaller for us -- we need to do it
      # ourselves if we're not a 'Just Me' installation.
      !insertmacro UAC_PageElevation_OnInit
@@ -65,7 +58,7 @@ index 6f5c8ae..4f933fd 100644
      ${EndIf}
  FunctionEnd
  
-@@ -996,9 +1032,9 @@ Section "Install"
+@@ -996,9 +1018,9 @@ Section "Install"
      # Copy extra files (code generated on winexe.py)
      @EXTRA_FILES@
  
