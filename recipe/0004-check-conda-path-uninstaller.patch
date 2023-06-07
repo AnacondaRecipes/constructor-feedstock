@@ -1,15 +1,43 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..704da89 100644
+index 6f5c8ae..4202ba6 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -669,6 +669,14 @@ Function .onInit
+@@ -669,6 +669,42 @@ Function .onInit
  FunctionEnd
  
  Function un.onInit
++    # Never run the uninstaller when $INSTDIR points at system-critical directories
++    ReadEnvStr $R0 ALLUSERSPROFILE
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 APPDATA
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 LOCALAPPDATA
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 PROGRAMDATA
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 PROGRAMFILES
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 PROGRAMFILES(x86)
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 PUBLIC
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 SYSTEMDRIVE
++    # SYSTEMDRIVE does not contain backslash
++    StrCpy $R0 "$R0\"
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 SYSTEMROOT
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 USERPROFILE
++    StrCmp $R0 $INSTDIR invalid_dir
++    ReadEnvStr $R0 WINDIR
++    StrCmp $R0 $INSTDIR invalid_dir
++
++    # Primitive check to see that $INSTDIR points to a conda directory
 +    IfFileExists $INSTDIR\_conda.exe valid_conda_dir invalid_dir
++
 +    invalid_dir:
 +        MessageBox MB_OK|MB_ICONSTOP \
-+            "Error: Not a valid conda directory. Please run the uninstaller from a conda directory." \
++            "Error: $INSTDIR is Not a valid conda directory. Please run the uninstaller from a conda directory." \
 +            /SD IDABORT
 +        abort
 +    valid_conda_dir:
@@ -17,7 +45,7 @@ index 6f5c8ae..704da89 100644
      # Select the correct registry to look at, depending
      # on whether it's a 32-bit or 64-bit installer
      SetRegView @BITS@
-@@ -679,15 +687,15 @@ Function un.onInit
+@@ -679,15 +715,15 @@ Function un.onInit
      # not automatically elevate the uninstaller for us -- we need to do it
      # ourselves if we're not a 'Just Me' installation.
      !insertmacro UAC_PageElevation_OnInit
@@ -37,7 +65,7 @@ index 6f5c8ae..704da89 100644
      ${EndIf}
  FunctionEnd
  
-@@ -996,9 +1004,9 @@ Section "Install"
+@@ -996,9 +1032,9 @@ Section "Install"
      # Copy extra files (code generated on winexe.py)
      @EXTRA_FILES@
  
@@ -49,7 +77,7 @@ index 6f5c8ae..704da89 100644
          FileClose $0
      ${EndIf}
  
-@@ -1171,7 +1179,6 @@ SectionEnd
+@@ -1171,7 +1207,6 @@ SectionEnd
  
  Section "Uninstall"
      # Remove menu items, path entries
