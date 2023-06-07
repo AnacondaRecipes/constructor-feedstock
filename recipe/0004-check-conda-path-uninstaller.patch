@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..4202ba6 100644
+index 6f5c8ae..4f933fd 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -669,6 +669,42 @@ Function .onInit
@@ -76,12 +76,4 @@ index 6f5c8ae..4202ba6 100644
 +        FileOpen $0 ".admin" w
          FileClose $0
      ${EndIf}
- 
-@@ -1171,7 +1207,6 @@ SectionEnd
- 
- Section "Uninstall"
-     # Remove menu items, path entries
--
-     DetailPrint "Deleting @NAME@ menus..."
-     nsExec::ExecToLog '"$INSTDIR\_conda.exe" constructor --prefix "$INSTDIR" --rm-menus'
  
