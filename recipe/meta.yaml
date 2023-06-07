@@ -36,6 +36,9 @@ requirements:
     - conda-standalone
     - pillow >=3.1
     - nsis >=3.08      # [win]
+    # Even though this is not listed as a requirement,
+    # building an installer will not work without it
+    - jinja2
   run_constrained:     # [unix]
     - nsis >=3.08      # [unix]
 test:
