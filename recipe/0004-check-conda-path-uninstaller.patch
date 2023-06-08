@@ -1,3 +1,30 @@
+diff --git a/constructor/nsis/_nsis.py b/constructor/nsis/_nsis.py
+index 314868f..8db40fa 100644
+--- a/constructor/nsis/_nsis.py
++++ b/constructor/nsis/_nsis.py
+@@ -77,10 +77,10 @@ else:
+ class NSISReg:
+     def __init__(self, reg_path):
+         self.reg_path = reg_path
+-        if exists(join(ROOT_PREFIX, '.nonadmin')):
+-            self.main_key = winreg.HKEY_CURRENT_USER
+-        else:
++        if exists(join(ROOT_PREFIX, '.admin')):
+             self.main_key = winreg.HKEY_LOCAL_MACHINE
++        else:
++            self.main_key = winreg.HKEY_CURRENT_USER
+ 
+     def set(self, name, value):
+         try:
+@@ -240,7 +240,7 @@ def run_pre_uninstall():
+             sys.exit(1)
+ 
+ 
+-allusers = (not exists(join(ROOT_PREFIX, '.nonadmin')))
++allusers = exists(join(ROOT_PREFIX, '.admin'))
+ # out('allusers is %s\n' % allusers)
+ 
+ # This must be the same as conda's binpath_from_arg() in conda/cli/activate.py
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
 index 6f5c8ae..a61609d 100644
 --- a/constructor/nsis/main.nsi.tmpl
