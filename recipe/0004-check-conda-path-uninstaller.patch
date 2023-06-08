@@ -1,12 +1,12 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..eb9e199 100644
+index 6f5c8ae..b98e14c 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -37,6 +37,8 @@ Unicode "true"
  !insertmacro GetParameters
  !insertmacro GetOptions
  
-+${StrTok}
++${UnStrTok}
 +
  !include "UAC.nsh"
  !include "nsDialogs.nsh"
@@ -21,7 +21,7 @@ index 6f5c8ae..eb9e199 100644
 +    Call un.CheckForSpaces
 +    Pop $R1
 +    ${ForEach} $R9 0 $R1 + 1
-+        ${StrTok} $R2 $R0 " " $R9 "1"
++        ${UnStrTok} $R2 $R0 " " $R9 "1"
 +        ReadEnvStr $R3 $R2
 +        StrCmp $R3 $INSTDIR invalid_dir
 +    ${Next}
