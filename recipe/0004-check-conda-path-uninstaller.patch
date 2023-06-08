@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..b98e14c 100644
+index 6f5c8ae..a61609d 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -37,6 +37,8 @@ Unicode "true"
@@ -44,7 +44,7 @@ index 6f5c8ae..b98e14c 100644
      # ourselves if we're not a 'Just Me' installation.
      !insertmacro UAC_PageElevation_OnInit
 -    ${IfNot} ${FileExists} "$INSTDIR\.nonadmin"
-+    ${IfNot} ${FileExists} "$INSTDIR\.admin"
++    ${If} ${FileExists} "$INSTDIR\.admin"
      ${AndIfNot} ${UAC_IsAdmin}
          !insertmacro DoElevation
      ${EndIf}
@@ -59,6 +59,8 @@ index 6f5c8ae..b98e14c 100644
      ${EndIf}
  FunctionEnd
  
++# Make function available for both installer and uninstaller
++# Uninstaller functions need an `un.` prefix, so we use a macro to do both
  # http://nsis.sourceforge.net/Check_for_spaces_in_a_directory_path
 -Function CheckForSpaces
 -    ${LogSet} on
@@ -82,8 +84,6 @@ index 6f5c8ae..b98e14c 100644
 -    Pop $R1
 -    Exch $R0
 -FunctionEnd
-+# Make function available for both installer and uninstaller
-+# Uninstaller functions need an `un.` prefix, so we use a macro to do both
 +!macro CheckForSpacesMacro un
 +    Function ${un}CheckForSpaces
 +        ${LogSet} on
