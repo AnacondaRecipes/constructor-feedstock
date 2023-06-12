@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..420f754 100644
+index 6f5c8ae..7af5c1d 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -37,6 +37,8 @@ Unicode "true"
@@ -11,31 +11,42 @@ index 6f5c8ae..420f754 100644
  !include "UAC.nsh"
  !include "nsDialogs.nsh"
  
-@@ -669,6 +671,28 @@ Function .onInit
+@@ -669,6 +671,39 @@ Function .onInit
  FunctionEnd
  
  Function un.onInit
 +    # Never run the uninstaller when $INSTDIR points at system-critical directories
 +    StrCpy $R0 "ALLUSERSPROFILE APPDATA LOCALAPPDATA PROGRAMDATA PROGRAMFILES PROGRAMFILES(x86) PUBLIC SYSTEMDRIVE SYSTEMROOT USERPROFILE"
 +    StrCpy $R1 0
-+    loop:
++    loop_critical:
 +        ${UnStrTok} $R2 $R0 " " $R1 1
-+        StrCmp $R2 "" endloop
++        StrCmp $R2 "" endloop_critical
 +        ReadEnvStr $R3 $R2
 +        StrCmp $R3 $INSTDIR invalid_dir
-+        IntOp $R1 + 1
-+        goto loop
-+    endloop:
++        IntOp $R1 $R1 + 1
++        goto loop_critical
++    endloop_critical:
 +
 +    # Primitive check to see that $INSTDIR points to a conda directory
-+    IfFileExists $INSTDIR\_conda.exe valid_conda_dir invalid_dir
++    StrCpy $R0 "_conda.exe"
++    StrCpy $R1 0
++    loop_conda:
++        ${UnStrTok} $R2 $R0 " " $R1 1
++        StrCmp $R2 "" endloop_conda
++        IfFileExists $INSTDIR\$R2 0 invalid_dir
++        IntOp $R1 $R1 + 1
++        goto loop_conda
++    endloop_conda:
++
++    # All checks have passed
++    goto valid_dir
 +
 +    invalid_dir:
 +        MessageBox MB_OK|MB_ICONSTOP \
 +            "Error: $INSTDIR is Not a valid conda directory. Please run the uninstaller from a conda directory." \
 +            /SD IDABORT
 +        abort
-+    valid_conda_dir:
++    valid_dir:
 +
      # Select the correct registry to look at, depending
      # on whether it's a 32-bit or 64-bit installer
