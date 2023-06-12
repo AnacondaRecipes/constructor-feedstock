@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..7af5c1d 100644
+index 6f5c8ae..a25868a 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -37,6 +37,8 @@ Unicode "true"
@@ -11,30 +11,35 @@ index 6f5c8ae..7af5c1d 100644
  !include "UAC.nsh"
  !include "nsDialogs.nsh"
  
-@@ -669,6 +671,39 @@ Function .onInit
+@@ -669,6 +671,44 @@ Function .onInit
  FunctionEnd
  
  Function un.onInit
++    Push $0
++    Push $1
++    Push $2
++    Push $3
++
 +    # Never run the uninstaller when $INSTDIR points at system-critical directories
-+    StrCpy $R0 "ALLUSERSPROFILE APPDATA LOCALAPPDATA PROGRAMDATA PROGRAMFILES PROGRAMFILES(x86) PUBLIC SYSTEMDRIVE SYSTEMROOT USERPROFILE"
-+    StrCpy $R1 0
++    StrCpy $0 "ALLUSERSPROFILE APPDATA LOCALAPPDATA PROGRAMDATA PROGRAMFILES PROGRAMFILES(x86) PUBLIC SYSTEMDRIVE SYSTEMROOT USERPROFILE"
++    StrCpy $1 0
 +    loop_critical:
-+        ${UnStrTok} $R2 $R0 " " $R1 1
-+        StrCmp $R2 "" endloop_critical
-+        ReadEnvStr $R3 $R2
-+        StrCmp $R3 $INSTDIR invalid_dir
-+        IntOp $R1 $R1 + 1
++        ${UnStrTok} $2 $0 " " $1 1
++        StrCmp $2 "" endloop_critical
++        ReadEnvStr $3 $2
++        StrCmp $3 $INSTDIR invalid_dir
++        IntOp $1 $1 + 1
 +        goto loop_critical
 +    endloop_critical:
 +
 +    # Primitive check to see that $INSTDIR points to a conda directory
-+    StrCpy $R0 "_conda.exe"
-+    StrCpy $R1 0
++    StrCpy $0 "_conda.exe"
++    StrCpy $1 0
 +    loop_conda:
-+        ${UnStrTok} $R2 $R0 " " $R1 1
-+        StrCmp $R2 "" endloop_conda
-+        IfFileExists $INSTDIR\$R2 0 invalid_dir
-+        IntOp $R1 $R1 + 1
++        ${UnStrTok} $2 $0 " " $1 1
++        StrCmp $2 "" endloop_conda
++        IfFileExists $INSTDIR\$2 0 invalid_dir
++        IntOp $1 $1 + 1
 +        goto loop_conda
 +    endloop_conda:
 +
@@ -51,3 +56,15 @@ index 6f5c8ae..7af5c1d 100644
      # Select the correct registry to look at, depending
      # on whether it's a 32-bit or 64-bit installer
      SetRegView @BITS@
+@@ -689,6 +729,11 @@ Function un.onInit
+     ${Else}
+         SetShellVarContext All
+     ${EndIf}
++
++    Pop $3
++    Pop $2
++    Pop $1
++    Pop $0
+ FunctionEnd
+ 
+ # http://nsis.sourceforge.net/Check_for_spaces_in_a_directory_path
