@@ -1,26 +1,31 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..62f37db 100644
+index 6f5c8ae..3a78cd0 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -37,6 +37,9 @@ Unicode "true"
+@@ -37,6 +37,11 @@ Unicode "true"
  !insertmacro GetParameters
  !insertmacro GetOptions
  
++# All commands used from StrFunc.nsh need to be called before they can be used.
++# https://nsis.sourceforge.io/StrFunc#3.1_How_To_Use_Commands_In_Install_Sections_and_Functions
 +!include "StrFunc.nsh"
 +${StrCase}
 +
  !include "UAC.nsh"
  !include "nsDialogs.nsh"
  
-@@ -827,7 +830,6 @@ Function OnDirectoryLeave
+@@ -827,7 +832,9 @@ Function OnDirectoryLeave
      Call CheckForSpaces
      Pop $R0 # The function returns the number of spaces found in the input string.
  
 -#if check_path_spaces is True
++    Push $R7
++    Push $R8
++    Push $R9
      # Check if any spaces exist in $INSTDIR.
      StrCmp $R0 0 NoSpaces
  
-@@ -837,18 +839,31 @@ Function OnDirectoryLeave
+@@ -837,18 +844,35 @@ Function OnDirectoryLeave
          Goto +2
            StrCpy $R1 "s"
  
@@ -46,6 +51,7 @@ index 6f5c8ae..62f37db 100644
          ${If} ${Silent}
 -            DetailPrint "::error:: 'Destination folder' contains $R0 space$R1."
 -            abort
++            # The error/warning strings must be lower case so that tests can catch them
 +            ${StrCase} $R9 $R9 "L"
 +            DetailPrint "::$R9:: $R8"
 +        ${Else}
@@ -57,6 +63,9 @@ index 6f5c8ae..62f37db 100644
 +            abort
  #endif
 +    NoSpaces:
++    Pop $R7
++    Pop $R8
++    Pop $R9
  
      # List of characters not allowed anywhere in $INSTDIR
      Push "^%!=,"
