@@ -12,6 +12,7 @@ source:
       - 0002-fix-yes-no-parsing.patch
       - 0003-prohibit-parentheses.patch
       - 0004-check-conda-path-uninstaller.patch
+      - 0005-do-not-replace-nsis-predefines.patch
 
 build:
   number: 3
