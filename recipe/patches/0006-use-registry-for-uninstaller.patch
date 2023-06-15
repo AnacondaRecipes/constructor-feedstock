@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..6b322f1 100644
+index 6f5c8ae..374b159 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -66,6 +66,8 @@ Unicode "true"
@@ -11,7 +11,7 @@ index 6f5c8ae..6b322f1 100644
  
  # UAC shield overlay
  !ifndef BCM_SETSHIELD
-@@ -1185,10 +1187,38 @@ Section "Uninstall"
+@@ -1185,10 +1187,36 @@ Section "Uninstall"
      #   carefully.  More info at https://docs.conda.io/projects/conda/en/latest/user-guide/troubleshooting.html#solution
      System::Call 'kernel32::SetEnvironmentVariable(t,t)i("CONDA_DLL_SEARCH_MODIFICATION_ENABLE", "1").r0'
  
@@ -41,17 +41,15 @@ index 6f5c8ae..6b322f1 100644
      System::Call 'kernel32::SetEnvironmentVariable(t,t)i("PREFIX", "$INSTDIR").r0'
      System::Call 'kernel32::SetEnvironmentVariable(t,t)i("INSTALLER_NAME", "${NAME}").r0'
 -    System::Call 'kernel32::SetEnvironmentVariable(t,t)i("INSTALLER_VER", "${VERSION}").r0'
-+    StrCpy $0 ""
++    StrCpy $0 ${VERSION}
 +    ${If} $INSTALLER_VERSION != ""
 +	StrCpy $0 $INSTALLER_VERSION
-+    ${Else}
-+	StrCpy $0 ${VERSION}
 +    ${EndIf}
 +    System::Call 'kernel32::SetEnvironmentVariable(t,t)i("INSTALLER_VER", "$0").r0'
      System::Call 'kernel32::SetEnvironmentVariable(t,t)i("INSTALLER_PLAT", "${PLATFORM}").r0'
      System::Call 'kernel32::SetEnvironmentVariable(t,t)i("INSTALLER_TYPE", "EXE").r0'
  
-@@ -1202,12 +1232,26 @@ Section "Uninstall"
+@@ -1202,13 +1230,26 @@ Section "Uninstall"
      # In case the last command fails, run the slow method to remove leftover
      RMDir /r /REBOOTOK "$INSTDIR"
  
@@ -65,6 +63,7 @@ index 6f5c8ae..6b322f1 100644
 -    ReadRegStr $0 SHCTX "Software\Python\PythonCore\${PY_VER}\InstallPath" ""
 -    ${If} $0 == "$INSTDIR"
 -        DeleteRegKey SHCTX "Software\Python\PythonCore\${PY_VER}"
+-    ${EndIf}
 +    StrCpy $R0 "SOFTWARE\Python\PythonCore"
 +    StrCpy $0 0
 +    loop_py:
@@ -79,6 +78,6 @@ index 6f5c8ae..6b322f1 100644
 +        IntOp $0 $0 + 1
 +        goto loop_py
 +    endloop_py:
-     ${EndIf}
  SectionEnd
  
+ !if '@SIGNTOOL_COMMAND@' != ''
