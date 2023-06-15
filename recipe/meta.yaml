@@ -13,6 +13,7 @@ source:
       - patches/0003-prohibit-parentheses.patch
       - patches/0004-check-conda-path-uninstaller.patch
       - patches/0005-do-not-replace-nsis-predefines.patch
+      - patches/0006-use-registry-for-uninstaller.patch
 
 build:
   number: 3
