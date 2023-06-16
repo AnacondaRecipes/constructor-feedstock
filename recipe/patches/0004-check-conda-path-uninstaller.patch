@@ -1,5 +1,5 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..07cf820 100644
+index 6f5c8ae..b03160c 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
 @@ -165,6 +165,7 @@ Page Custom mui_AnaCustomOptions_Show
@@ -10,22 +10,7 @@ index 6f5c8ae..07cf820 100644
  !insertmacro MUI_UNPAGE_CONFIRM
  !insertmacro MUI_UNPAGE_INSTFILES
  !insertmacro MUI_UNPAGE_FINISH
-@@ -611,6 +612,14 @@ Function .onInit
-         ${EndIf}
-     ${EndIf}
- 
-+    # Resolve INSTDIR
-+    GetFullPathName $0 $INSTDIR
-+    ${If} $0 == ""
-+	MessageBox MB_ICONEXCLAMATION "Error resolving installation directory." /SD IDABORT
-+	abort
-+    ${EndIf}
-+    StrCpy $INSTDIR $0
-+
-     ; Set default value
-     ${If} $CheckPathLength == ""
-         StrCpy $CheckPathLength "1"
-@@ -669,6 +678,62 @@ Function .onInit
+@@ -669,6 +670,60 @@ Function .onInit
  FunctionEnd
  
  Function un.onInit
@@ -36,10 +21,8 @@ index 6f5c8ae..07cf820 100644
 +
 +    # Resolve INSTDIR
 +    GetFullPathName $0 $INSTDIR
-+    ${If} $0 == ""
-+	MessageBox MB_ICONEXCLAMATION "Error resolving uninstallation directory." /SD IDABORT
-+	abort
-+    ${EndIf}
++    # If the directory does not exist or cannot be resolved, $0 will be empty
++    StrCmp $0 "" invalid_dir
 +    StrCpy $INSTDIR $0
 +
 +    # Never run the uninstaller when $INSTDIR points at system-critical directories
@@ -88,7 +71,7 @@ index 6f5c8ae..07cf820 100644
      # Select the correct registry to look at, depending
      # on whether it's a 32-bit or 64-bit installer
      SetRegView @BITS@
-@@ -689,6 +754,11 @@ Function un.onInit
+@@ -689,6 +744,11 @@ Function un.onInit
      ${Else}
          SetShellVarContext All
      ${EndIf}
@@ -100,7 +83,7 @@ index 6f5c8ae..07cf820 100644
  FunctionEnd
  
  # http://nsis.sourceforge.net/Check_for_spaces_in_a_directory_path
-@@ -922,6 +992,17 @@ Function .onVerifyInstDir
+@@ -922,6 +982,17 @@ Function .onVerifyInstDir
      PathGood:
  FunctionEnd
  
@@ -118,3 +101,19 @@ index 6f5c8ae..07cf820 100644
  # Make function available for both installer and uninstaller
  # Uninstaller functions need an `un.` prefix, so we use a macro to do both
  # see https://nsis.sourceforge.io/Sharing_functions_between_Installer_and_Uninstaller
+@@ -978,6 +1049,15 @@ Section "Install"
+     File "@NSIS_DIR@\_nsis.py"
+     File "@NSIS_DIR@\_system_path.py"
+ 
++    # Resolve INSTDIR so that paths and registry keys do not contain '..' or similar strings.
++    # $0 is empty if the directory doesn't exist, but the File commands should have created it already.
++    GetFullPathName $0 $INSTDIR
++    ${If} $0 == ""
++	MessageBox MB_ICONSTOP "Error resolving installation directory." /SD IDABORT
++	Quit
++    ${EndIf}
++    StrCpy $INSTDIR $0
++
+     ReadEnvStr $0 SystemRoot
+     # set PATH for the installer process, so that MSVC runtimes get found OK
+     #    This is also isolating PATH to be just us and Windows core stuff, which hopefully avoids
