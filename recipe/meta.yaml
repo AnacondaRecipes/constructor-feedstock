@@ -8,12 +8,15 @@ source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
     sha256: 4a1f5ae2ba74175cc5d0770d6d43147253091f8869fa20568a02d5ddb7963dee
     patches:
-      - 0001-only-warn-on-spaces.patch
-      - 0002-fix-yes-no-parsing.patch
-      - 0003-prohibit-parentheses.patch
+      - patches/0001-only-warn-on-spaces.patch
+      - patches/0002-fix-yes-no-parsing.patch
+      - patches/0003-prohibit-parentheses.patch
+      - patches/0004-check-conda-path-uninstaller.patch
+      - patches/0005-do-not-replace-nsis-predefines.patch
+      - patches/0006-use-registry-for-uninstaller.patch
 
 build:
-  number: 2
+  number: 3
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
@@ -35,6 +38,9 @@ requirements:
     - conda-standalone
     - pillow >=3.1
     - nsis >=3.08      # [win]
+    # Even though this is not listed as a requirement,
+    # building an installer will not work without it
+    - jinja2
   run_constrained:     # [unix]
     - nsis >=3.08      # [unix]
 test:
@@ -45,6 +51,7 @@ test:
   requires:
     - pip
     - pytest
+    - conda-libmamba-solver  # [osx-arm64]
   commands:
     - pip check
     - pytest -v tests
