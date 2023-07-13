@@ -16,7 +16,7 @@ source:
       - patches/0006-use-registry-for-uninstaller.patch
 
 build:
-  number: 4
+  number: 5
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
