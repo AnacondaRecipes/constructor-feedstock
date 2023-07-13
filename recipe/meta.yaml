@@ -46,7 +46,7 @@ test:
   requires:
     - pip
     - pytest
-    - conda-libmamba-solver  # [osx-arm64]
+    - conda-libmamba-solver
   commands:
     - pip check
     - pytest -v tests -k "not examples"
