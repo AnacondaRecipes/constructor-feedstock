@@ -31,6 +31,8 @@ requirements:
     - python
     - ruamel.yaml >=0.11.14,<0.18
     - conda-standalone
+    # pillow is used without any guards, so we need it for all architectures
+    # https://github.com/conda/constructor/blob/3.4.4/constructor/imaging.py#L11
     - pillow >=3.1
     - nsis >=3.08      # [win]
     # Even though this is not listed as a requirement,
