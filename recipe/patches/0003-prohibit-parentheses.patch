@@ -1,9 +1,9 @@
 diff --git a/constructor/nsis/main.nsi.tmpl b/constructor/nsis/main.nsi.tmpl
-index 6f5c8ae..9ce7a1e 100644
+index 865ebb3..a0e11b3 100644
 --- a/constructor/nsis/main.nsi.tmpl
 +++ b/constructor/nsis/main.nsi.tmpl
-@@ -851,7 +851,7 @@ Function OnDirectoryLeave
- #endif
+@@ -929,7 +929,7 @@ Function OnDirectoryLeave
+     Pop $R9
  
      # List of characters not allowed anywhere in $INSTDIR
 -    Push "^%!=,"
