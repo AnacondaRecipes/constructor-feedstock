@@ -1,4 +1,4 @@
-{% set version = "3.4.4" %}
+{% set version = "3.4.5" %}
 
 package:
   name: constructor
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: d7081751f490622785807de6a78dd8ccdf71093a947489e4af5eeb76a7bd1e21
+    sha256: 8483b2b4a4d136ce7d750a3f0d6eb964d5e6295436fab74c7d855ca70f9b6c33
     patches:
       - patches/0003-prohibit-parentheses.patch
 
