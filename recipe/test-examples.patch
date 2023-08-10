@@ -1,8 +1,18 @@
 diff --git a/tests/test_examples.py b/tests/test_examples.py
-index 4bd862a..5721def 100644
+index 4bd862a..0fb9cf4 100644
 --- a/tests/test_examples.py
 +++ b/tests/test_examples.py
-@@ -349,7 +349,7 @@ def test_example_noconda(tmp_path, request):
+@@ -13,7 +13,8 @@ import pytest
+ from conda.base.context import context
+ from conda.core.prefix_data import PrefixData
+ 
+-from constructor.osxpkg import calculate_install_dir
++if sys.platform == "darwin":
++    from constructor.osxpkg import calculate_install_dir
+ 
+ try:
+     import coverage  # noqa
+@@ -349,7 +350,7 @@ def test_example_noconda(tmp_path, request):
          _run_installer(input_path, installer, install_dir, request=request)
  
  
