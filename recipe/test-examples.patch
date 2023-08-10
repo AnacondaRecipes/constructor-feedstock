@@ -22,10 +22,17 @@ index 4bd862a..0fb9cf4 100644
      input_path = _example_path("osxpkg")
      for installer, install_dir in create_installer(input_path, tmp_path):
 diff --git a/tests/test_header.py b/tests/test_header.py
-index bc5b42b..319b62c 100644
+index bc5b42b..ece01ad 100644
 --- a/tests/test_header.py
 +++ b/tests/test_header.py
-@@ -7,7 +7,8 @@ from shutil import which
+@@ -1,5 +1,6 @@
+ import itertools
+ import subprocess
++import sys
+ import tempfile
+ from functools import lru_cache
+ from pathlib import Path
+@@ -7,7 +8,8 @@ from shutil import which
  
  import pytest
  
