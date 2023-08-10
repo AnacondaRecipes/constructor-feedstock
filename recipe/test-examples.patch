@@ -21,3 +21,17 @@ index 4bd862a..0fb9cf4 100644
  def test_example_osxpkg(tmp_path, request):
      input_path = _example_path("osxpkg")
      for installer, install_dir in create_installer(input_path, tmp_path):
+diff --git a/tests/test_header.py b/tests/test_header.py
+index bc5b42b..319b62c 100644
+--- a/tests/test_header.py
++++ b/tests/test_header.py
+@@ -7,7 +7,8 @@ from shutil import which
+ 
+ import pytest
+ 
+-from constructor.osxpkg import OSX_DIR
++if sys.platform == "darwin":
++    from constructor.osxpkg import OSX_DIR
+ from constructor.shar import read_header_template
+ from constructor.utils import preprocess
+ 
