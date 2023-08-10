@@ -22,7 +22,7 @@ index 4bd862a..0fb9cf4 100644
      input_path = _example_path("osxpkg")
      for installer, install_dir in create_installer(input_path, tmp_path):
 diff --git a/tests/test_header.py b/tests/test_header.py
-index bc5b42b..ece01ad 100644
+index bc5b42b..259b740 100644
 --- a/tests/test_header.py
 +++ b/tests/test_header.py
 @@ -1,5 +1,6 @@
@@ -42,3 +42,19 @@ index bc5b42b..ece01ad 100644
  from constructor.shar import read_header_template
  from constructor.utils import preprocess
  
+@@ -95,6 +97,7 @@ def test_linux_template_processing():
+     assert not errors
+ 
+ 
++@pytest.mark.skipif(sys.platform != "darwin", reason="Only on MacOS")
+ @pytest.mark.parametrize("arch", ["x86_64", "arm64"])
+ @pytest.mark.parametrize("check_path_spaces", [False, True])
+ @pytest.mark.parametrize("script", sorted(Path(OSX_DIR).glob("*.sh")))
+@@ -107,6 +110,7 @@ def test_osxpkg_scripts_template_processing(arch, check_path_spaces, script):
+     assert "#endif" not in processed
+ 
+ 
++@pytest.mark.skipif(sys.platform != "darwin", reason="Only on MacOS")
+ @pytest.mark.skipif(available_command("shellcheck") is False, reason="requires shellcheck")
+ @pytest.mark.parametrize("arch", ["x86_64", "arm64"])
+ @pytest.mark.parametrize("check_path_spaces", [False, True])
