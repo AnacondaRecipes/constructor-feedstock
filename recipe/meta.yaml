@@ -31,7 +31,7 @@ requirements:
     - python
     - ruamel.yaml >=0.11.14,<0.18
     - conda-standalone
-    - pillow >=3.1     # [not linux]
+    - pillow >=3.1     # [win or osx]
     - nsis >=3.08      # [win]
     # Even though this is not listed as a requirement,
     # building an installer will not work without it
