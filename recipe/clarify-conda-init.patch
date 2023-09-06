@@ -1,0 +1,55 @@
+diff --git a/constructor/header.sh b/constructor/header.sh
+index 7669ead..942ceee 100644
+--- a/constructor/header.sh
++++ b/constructor/header.sh
+@@ -544,8 +544,14 @@ if [ "$BATCH" = "0" ]; then
+ #if has_conda and initialize_conda is True
+     # Interactive mode.
+ 
+-    printf "Do you wish the installer to initialize %s\\n" "${INSTALLER_NAME}"
+-    printf "by running conda init? [yes|no]\\n"
++    printf "Do you wish to update your shell profile to automatically initialize conda?\\n"
++    printf "This will activate conda on startup and change the command prompt when activated.\\n"
++    printf "If you'd prefer that conda's base environment not be activated on startup,\\n"
++    printf "   run the following command when conda is activated:\\n"
++    printf "\\n"
++    printf "conda config --set auto_activate_base false\\n"
++    printf "\\n"
++    printf "You can undo this by running \`conda init --reverse \$SHELL\`? [yes|no]\\n"
+     printf "[%s] >>> " "$DEFAULT"
+     read -r ans
+     if [ "$ans" = "" ]; then
+@@ -578,11 +584,6 @@ if [ "$BATCH" = "0" ]; then
+             esac
+         fi
+     fi
+-    printf "If you'd prefer that conda's base environment not be activated on startup, \\n"
+-    printf "   set the auto_activate_base parameter to false: \\n"
+-    printf "\\n"
+-    printf "conda config --set auto_activate_base false\\n"
+-    printf "\\n"
+ #endif
+ 
+     printf "Thank you for installing %s!\\n" "${INSTALLER_NAME}"
+diff --git a/constructor/osxpkg.py b/constructor/osxpkg.py
+index 2628429..605067d 100644
+--- a/constructor/osxpkg.py
++++ b/constructor/osxpkg.py
+@@ -224,10 +224,13 @@ def modify_xml(xml_path, info):
+                 'initialize_by_default', True) else 'false')
+             path_choice.set('title', "Add conda initialization to the shell")
+             path_description = """
+-            If this box is checked, "conda init" will be executed to ensure that
+-            conda is available in your preferred shell upon startup. If unchecked,
+-            you must this initialization yourself or activate the environment
+-            manually for each shell in which you wish to use it."""
++            If this box is checked, conda will be automatically activated in your
++            preferred shell on startup. This will change the command prompt when
++            activated. If your prefer that conda's base environment not be activated
++            on startup, run `conda config --set auto_activate_base false`. You can
++            undo this by running `conda init --reverse ${SHELL}`.
++            If unchecked, you must this initialization yourself or activate the
++            environment manually for each shell in which you wish to use it."""
+             path_choice.set('description', ' '.join(path_description.split()))
+         elif ident.endswith('cacheclean'):
+             path_choice.set('visible', 'true')
