@@ -1,4 +1,4 @@
-{% set version = "3.4.5" %}
+{% set version = "3.5.0" %}
 
 package:
   name: constructor
@@ -6,22 +6,16 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: 8483b2b4a4d136ce7d750a3f0d6eb964d5e6295436fab74c7d855ca70f9b6c33
-    patches:
-      - test-fixes.patch
-      - clarify-conda-init.patch
+    sha256: 787ffd85e9414bdf70fe531f01eab3987a040e3f6a6ac3a01409f4d332f7de9e
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
   skip: true  # [py<37]
 
 requirements:
-  build:
-    - patch     # [not win]
-    - m2-patch  # [win]
   host:
     - python
     - pip
