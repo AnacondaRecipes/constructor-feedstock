@@ -18,12 +18,13 @@ build:
   skip: true  # [py<37]
 
 requirements:
+  build:
+    - patch  # [aarch64]
   host:
     - python
     - pip
     - setuptools
     - wheel
-    - patch  # [aarch64]
   run:
     - conda >=4.6
     - python
