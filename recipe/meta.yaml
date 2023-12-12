@@ -7,15 +7,19 @@ package:
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
     sha256: 787ffd85e9414bdf70fe531f01eab3987a040e3f6a6ac3a01409f4d332f7de9e
+    patches:                        # [aarch64]
+      - raspberry-pi-warning.patch  # [aarch64]
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
   skip: true  # [py<37]
 
 requirements:
+  build:
+    - patch  # [aarch64]
   host:
     - python
     - pip
