@@ -1,4 +1,4 @@
-{% set version = "3.6.0" %}
+{% set version = "3.7.0" %}
 
 package:
   name: constructor
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: d47e6f805337de70a72dea62999853361fbf558e2fbf3a9016c7a007be82ff46
+    sha256: e84de1d7db3dbd394c03fa0e966bd293729307b9de0c8733ed7189f422a4b5b5
     patches:                        # [aarch64]
       - raspberry-pi-warning.patch  # [aarch64]
 
