@@ -1,4 +1,4 @@
-{% set version = "3.9.0" %}
+{% set version = "3.9.2" %}
 
 package:
   name: constructor
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: 5970b5b1dc661f786069010f62b191db8cd6be2d798c0451ce0fb6cfe56266d4
+    sha256: 0ea4f6d563a53ebb03475dc6d2d88d3ab01be4e9d291fd276c79315aa92e5114
     patches:                        # [aarch64]
       - raspberry-pi-warning.patch  # [aarch64]
 
@@ -48,9 +48,7 @@ test:
     - conda-libmamba-solver
   commands:
     - pip check
-    # Image tests are failing because fonts are not available
-    # Since we use our own images, this is not needed for now
-    - pytest -v tests -k "not examples and not test_write_images"
+    - pytest -v tests -k "not examples"
     # Long running integration tests
     # - python scripts/run_examples.py  # [not win]
     - constructor -V
