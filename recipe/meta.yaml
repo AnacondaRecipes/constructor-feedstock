@@ -40,8 +40,9 @@ requirements:
 test:
   source_files:
     - tests
-    - scripts
-    - examples
+    # Include when running examples
+    # - scripts
+    # - examples
   requires:
     - pip
     - pytest
