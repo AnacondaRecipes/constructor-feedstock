@@ -1,12 +1,12 @@
 diff --git a/constructor/header.sh b/constructor/header.sh
-index 7669ead..bcaecc8 100644
+index 129d3da..1d4d33c 100644
 --- a/constructor/header.sh
 +++ b/constructor/header.sh
-@@ -198,6 +198,21 @@ then
+@@ -249,6 +249,21 @@ then
  #endif
  
  #if aarch64
-+    if [[ -f /proc/device-tree/model && -n "$(cat /proc/device-tree/model | grep Raspberry)" ]]; then
++    if [ -f /proc/device-tree/model && -n "$(cat /proc/device-tree/model | grep Raspberry)" ]; then
 +        printf "WARNING:\\n"
 +        printf "    Your system appears to be a RaspberryPi.\\n"
 +        printf "    Anaconda packages may not be compatible with this system.\\n"
