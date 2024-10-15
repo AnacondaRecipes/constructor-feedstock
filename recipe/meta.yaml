@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: 0ea4f6d563a53ebb03475dc6d2d88d3ab01be4e9d291fd276c79315aa92e5114
+    sha256: c88640ca1dcb93784cf754a16c53a098633808653aa52965c909a967b84815b9
     patches:                        # [aarch64]
       - raspberry-pi-warning.patch  # [aarch64]
 
