@@ -14,6 +14,7 @@ build:
   number: 0
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}
+    - NSIS_USING_LOG_BUILD=1   # [win]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - constructor = constructor.main:main
@@ -40,6 +41,8 @@ requirements:
     - jsonschema >=4
   run_constrained:     # [unix]
     - nsis >=3.08      # [unix]
+    - conda-libmamba-solver !=24.11.0
+    - pydantic >=2
 test:
   source_files:
     - tests
@@ -50,12 +53,15 @@ test:
     - pip
     - pytest
     - conda-libmamba-solver
+    - nsis =*=*log*  # [win]
+    - pywin32        # [win]
   commands:
     - pip check
     - pytest -v tests -k "not examples"
     # Long running integration tests
     # - python scripts/run_examples.py  # [not win]
-    - constructor -V
+    - constructor --help
+    - pytest -v tests/test_examples.py::test_example_miniforge
   imports:
     - constructor
 
