@@ -37,7 +37,7 @@ requirements:
     - nsis >=3.08      # [win]
     - pywin32          # [win]
     - jinja2
-    - jsonschema
+    - jsonschema >=4
   run_constrained:     # [unix]
     - nsis >=3.08      # [unix]
 test:
