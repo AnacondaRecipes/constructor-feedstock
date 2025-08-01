@@ -36,7 +36,6 @@ requirements:
     - conda-standalone
     - pillow >=3.1     # [win or osx]
     - nsis >=3.08      # [win]
-    - pywin32          # [win]
     - jinja2
     - jsonschema >=4
   run_constrained:     # [unix]
