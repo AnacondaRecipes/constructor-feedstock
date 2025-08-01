@@ -61,7 +61,7 @@ test:
     # Long running integration tests
     # - python scripts/run_examples.py  # [not win]
     - constructor --help
-    - pytest -v tests/test_examples.py::test_example_miniforge
+    - construtor -V
   imports:
     - constructor
 
