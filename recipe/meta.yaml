@@ -61,7 +61,7 @@ test:
     # Long running integration tests
     # - python scripts/run_examples.py  # [not win]
     - constructor --help
-    - construtor -V
+    - constructor -V
   imports:
     - constructor
 
