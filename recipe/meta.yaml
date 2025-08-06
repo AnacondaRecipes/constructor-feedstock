@@ -21,8 +21,6 @@ build:
   skip: true  # [py<38]
 
 requirements:
-  build:
-    - patch  # [aarch64]
   host:
     - python
     - pip
