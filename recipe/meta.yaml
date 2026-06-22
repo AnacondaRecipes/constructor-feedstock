@@ -49,6 +49,7 @@ test:
   requires:
     - pip
     - pytest
+    - pytest-mock
     - conda-libmamba-solver
     - nsis =*=*log*  # [win]
     - pywin32        # [win]
