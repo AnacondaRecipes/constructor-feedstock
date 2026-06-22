@@ -1,4 +1,4 @@
-{% set version = "3.15.3" %}
+{% set version = "3.16.0" %}
 
 package:
   name: constructor
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
-    sha256: 079ab23d3c636b408d88a87afe1c858b1a0c589b48729c305e051f118d490c7b
+    sha256: 0c12ff825df3e23d6982a0cc8f0fab039496ce47a765bbca2e8bb1ad910cdc18
     patches:                        # [aarch64]
       - raspberry-pi-warning.patch  # [aarch64]
 
@@ -32,12 +32,14 @@ requirements:
     - python
     - ruamel.yaml >=0.11.14,<0.19
     - conda-standalone >=24.1.2
-    - pillow >=3.1     # [win or osx]
-    - nsis >=3.08      # [win]
+    - pillow >=3.1        # [win or osx]
+    - nsis >=3.08         # [win]
     - jinja2
     - jsonschema >=4
-  run_constrained:     # [unix]
-    - nsis >=3.08      # [unix]
+    - briefcase >=0.3.26  # [win]
+    - tomli-w >=1.2.0     # [win]
+  run_constrained:        # [unix]
+    - nsis >=3.08         # [unix]
     - conda-libmamba-solver !=24.11.0
     - pydantic >=2.11
 test:
@@ -49,6 +51,7 @@ test:
   requires:
     - pip
     - pytest
+    - pytest-mock
     - conda-libmamba-solver
     - nsis =*=*log*  # [win]
     - pywin32        # [win]
