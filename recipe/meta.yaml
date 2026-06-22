@@ -36,6 +36,8 @@ requirements:
     - nsis >=3.08      # [win]
     - jinja2
     - jsonschema >=4
+    - briefcase >=0.3.26  # [win]
+    - tomli-w >=1.2.0     # [win]
   run_constrained:     # [unix]
     - nsis >=3.08      # [unix]
     - conda-libmamba-solver !=24.11.0
