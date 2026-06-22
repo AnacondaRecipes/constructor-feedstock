@@ -7,7 +7,8 @@ package:
 source:
   - url: https://github.com/conda/constructor/archive/{{ version }}.tar.gz
     sha256: 0c12ff825df3e23d6982a0cc8f0fab039496ce47a765bbca2e8bb1ad910cdc18
-    patches:                        # [aarch64]
+    patches:
+      - include-briefcase-package-data.patch
       - raspberry-pi-warning.patch  # [aarch64]
 
 build:

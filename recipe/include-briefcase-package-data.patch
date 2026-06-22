@@ -1,0 +1,12 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 2c45735..b143054 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -44,6 +44,7 @@ constructor = [
+     "nsis/*",
+     "osx/*",
+     "ttf/*",
++    "briefcase/*",
+ ]
+
+ [tool.ruff]
