@@ -45,6 +45,10 @@ requirements:
 test:
   source_files:
     - tests
+    # No such file or directory: '../examples/miniforge/construct.yaml'
+    - examples/miniforge
+    # No such file or directory: '../examples/miniforge-mamba2/construct.yaml'
+    - examples/miniforge-mamba2/
     # Include when running examples
     # - scripts
     # - examples
