@@ -24,9 +24,8 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
-- setuptools >=70.1
-- setuptools-scm >=6.2
+    - setuptools >=70.1
+    - setuptools-scm >=6.2
     - wheel
   run:
     - conda >=4.6
